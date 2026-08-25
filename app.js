@@ -27,9 +27,13 @@ const beepDone = () => { beep(880, 0.15); beep(660, 0.15, 0.2); beep(990, 0.4, 0
 
 function setDurOf(ex) {
   if (ex.type === 'time') return ex.time;
-  let d = ex.reps * ex.anim.dur;
+  let d = ex.reps * demoDurOf(ex);
   if (ex.eachSide) d *= 2;
   return d;
+}
+
+function demoDurOf(ex) {
+  return ex.anim?.dur ?? VISUAL_ASSETS[ex.id]?.dur ?? 2.4;
 }
 
 function entryLabel(ex) {
@@ -221,6 +225,7 @@ class Panel {
     this.title = sel.type === 'routine' ? sel.name : `${sel.mins} min generated plan`;
     this.build();
     this.canvas = this.el.querySelector('canvas');
+    this.asset = new FrameFigure(this.el.querySelector('.asset-demo'));
     this.fig = new StickFigure(this.canvas);
     this.renderEx(0);
     this.updateClock();
@@ -245,7 +250,7 @@ class Panel {
         </div>
       </div>
       <div class="ex-card">
-        <div class="fig-wrap"><canvas></canvas></div>
+        <div class="fig-wrap"><canvas></canvas><img class="asset-demo" alt="" hidden></div>
         <div class="ex-info">
           <h3></h3>
           <div class="muscles"></div>
@@ -281,6 +286,9 @@ class Panel {
     const e = this.plan[i];
     const ex = e.ex;
     this.el.querySelector('.ex-info h3').textContent = ex.name;
+    const visual = VISUAL_ASSETS[ex.id];
+    this.asset.setFrames(visual?.frames);
+    this.canvas.hidden = Boolean(visual);
     const chips = this.el.querySelector('.muscles');
     chips.innerHTML = ex.muscles.map((m) => `<span class="muscle-chip">${m}</span>`).join('');
     this.el.querySelector('.meta-txt').textContent = entryLabel(ex);
@@ -296,7 +304,15 @@ class Panel {
     this.phase = 'ex';
     this.rem = e.setDur;
     this.renderEx(this.idx);
-    this.fig.play(e.ex.anim, { fig: this.theme.accent, accent: this.theme.accent });
+    const visual = VISUAL_ASSETS[e.ex.id];
+    if (visual) {
+      this.asset.play(visual.frames, visual.dur);
+      this.fig.stop();
+    } else {
+      this.asset.setFrames();
+      this.canvas.hidden = false;
+      this.fig.play(e.ex.anim, { fig: this.theme.accent, accent: this.theme.accent });
+    }
     beepStart();
     this.label('exercise', e.ex.name + (this.setsLeft > 1 ? ` — set ${this.plan[this.idx].sets - this.setsLeft + 1} of ${e.sets}` : ''));
     this.updateClock();
@@ -307,6 +323,7 @@ class Panel {
     this.phase = 'rest';
     this.rem = e.rest;
     this.fig.stop();
+    this.asset.stop();
     beepRest();
     this.label('rest', 'Breathe — next set in a moment');
     this.updateClock();
@@ -336,6 +353,7 @@ class Panel {
     this.phase = 'done';
     this.rem = 0;
     this.fig.stop();
+    this.asset.stop();
     beepDone();
     this.el.querySelector('.ex-card').innerHTML =
       `<div class="finish-box">Session complete!<small>${this.theme.label.toLowerCase()} — same time tomorrow?</small></div>`;
@@ -417,6 +435,7 @@ class Panel {
   stop() {
     if (this.timer) clearInterval(this.timer);
     this.timer = null;
+    this.asset && this.asset.stop();
     this.fig && this.fig.stop();
   }
 }

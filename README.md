@@ -6,8 +6,8 @@ A zero-dependency web app for home bodyweight training. Run it on your
 computer, open it on your phone or TV, and train side by side:
 your muscle-building workout on one side, pilates on the other.
 
-Built for the classic "Toji" goal: broad shoulders, wide back, defined arms,
-lean waist — no equipment, just your body and a floor. Your partner gets a
+Built around a broad-shouldered, lean-strength goal: wide back, defined arms,
+and a lean waist — no equipment, just your body and a floor. Your partner gets a
 pilates flow that needs nothing but a yoga mat.
 
 ## Features
@@ -49,6 +49,8 @@ syncout/
 ├── app.js         # views, plan generator, timers, split screen
 ├── exercises.js   # exercise database (muscles, steps, animation data)
 ├── anim.js        # canvas stick-figure animation engine
+├── visual-assets.js # optional frame-based exercise demonstrations
+├── assets/         # third-party visual assets and notices
 └── server.js      # static file server (Node built-ins only)
 ```
 
@@ -69,4 +71,12 @@ plays.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+The app source code and original exercise data are MIT-licensed — see
+[LICENSE](LICENSE).
+
+The selected third-party visual assets under
+[assets/workout-guide](assets/workout-guide) remain licensed separately under
+CC BY-SA 4.0. See the included
+[license notice](assets/workout-guide/LICENSE-ASSETS) and
+[attribution](assets/workout-guide/ATTRIBUTION.md) for the required credit,
+upstream sources, and license terms.

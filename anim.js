@@ -28,10 +28,10 @@ class StickFigure {
   }
 
   play(anim, colors) {
+    this.stop();
     this.anim = anim;
     if (colors) this.colors = Object.assign(this.colors, colors);
     this.started = performance.now();
-    cancelAnimationFrame(this.raf);
     const loop = () => {
       this.frame();
       this.raf = requestAnimationFrame(loop);
@@ -41,6 +41,8 @@ class StickFigure {
 
   stop() {
     cancelAnimationFrame(this.raf);
+    this.raf = 0;
+    this.ctx.clearRect(0, 0, SPACE, SPACE);
   }
 
   frame() {
@@ -48,20 +50,23 @@ class StickFigure {
     ctx.clearRect(0, 0, SPACE, SPACE);
     if (!this.anim) return;
     const kf = this.anim.kf;
+    if (!kf || kf.length === 0) return;
     const dur = this.anim.dur || 2;
-    const t = ((performance.now() - this.started) / 1000) % dur;
-    this.drawScene(kf, t, kf[kf.length - 1].t);
+    const elapsed = (performance.now() - this.started) / 1000;
+    const keyframeEnd = kf[kf.length - 1].t || 1;
+    const t = ((elapsed % dur) / dur) * keyframeEnd;
+    this.drawScene(kf, t);
   }
 
-  drawScene(kf, t, total) {
-    const ctx = this.ctx;
+  drawScene(kf, t) {
     const props = this.anim.props || {};
     this.drawProps(props);
     let a = kf[0], b = kf[kf.length - 1], p = 0;
     for (let i = 0; i < kf.length - 1; i++) {
       if (t >= kf[i].t && t <= kf[i + 1].t) {
         a = kf[i]; b = kf[i + 1];
-        p = (t - a.t) / (b.t - a.t);
+        const span = b.t - a.t;
+        p = span > 0 ? (t - a.t) / span : 0;
         break;
       }
     }
@@ -142,5 +147,55 @@ class StickFigure {
     ctx.beginPath();
     ctx.arc(sh, sv, 3.4, 0, Math.PI * 2);
     ctx.stroke();
+  }
+}
+
+class FrameFigure {
+  constructor(img) {
+    this.img = img;
+    this.frames = [];
+    this.current = -1;
+    this.duration = 2.4;
+    this.started = 0;
+    this.raf = 0;
+  }
+
+  setFrames(frames) {
+    this.stop();
+    this.frames = frames || [];
+    this.current = -1;
+    this.img.hidden = this.frames.length === 0;
+    if (this.frames.length) this.setFrame(0);
+  }
+
+  setFrame(index) {
+    if (index === this.current) return;
+    this.current = index;
+    this.img.src = this.frames[index];
+  }
+
+  play(frames, duration) {
+    this.setFrames(frames);
+    if (!this.frames.length) return;
+    this.duration = duration || 2.4;
+    this.started = performance.now();
+    const loop = () => {
+      this.frame();
+      this.raf = requestAnimationFrame(loop);
+    };
+    loop();
+  }
+
+  frame() {
+    if (!this.frames.length) return;
+    const elapsed = (performance.now() - this.started) / 1000;
+    const phase = ((elapsed % this.duration) / this.duration) * 4;
+    const sequence = [0, 1, 2, 1];
+    this.setFrame(sequence[Math.floor(phase) % sequence.length]);
+  }
+
+  stop() {
+    cancelAnimationFrame(this.raf);
+    this.raf = 0;
   }
 }

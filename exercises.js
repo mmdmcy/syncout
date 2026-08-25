@@ -623,13 +623,130 @@ const EXERCISES = {
       { t: 0, p: F([[110, 106], [108, 120], [100, 110], [90, 100], [118, 120], [110, 110], [100, 100], [110, 152], [120, 160], [124, 170], [112, 180], [104, 160], [100, 170], [104, 180]]) },
       { t: 1, p: F([[110, 104], [108, 118], [100, 108], [90, 98], [118, 118], [110, 108], [100, 98], [110, 150], [120, 158], [124, 168], [112, 180], [104, 158], [100, 168], [104, 180]]) }
     ] }
+  },
+
+  burpee: {
+    id: 'burpee', name: 'Burpee', target: 'him',
+    groups: ['cardio', 'full_body'],
+    muscles: ['Legs', 'Chest', 'Shoulders', 'Core'],
+    type: 'reps', reps: 8, sets: 3, rest: 45,
+    steps: [
+      'Stand tall, then squat and place your hands on the floor',
+      'Jump or step your feet back into a strong plank',
+      'Bring your feet forward and stand up tall',
+      'Land softly and keep the pace controlled'
+    ]
+  },
+
+  bear_crawl: {
+    id: 'bear_crawl', name: 'Bear Crawl', target: 'him',
+    groups: ['core', 'cardio', 'full_body'],
+    muscles: ['Core', 'Shoulders', 'Quads'],
+    type: 'time', time: 30, sets: 3, rest: 30,
+    steps: [
+      'Start on hands and feet with knees hovering just above the floor',
+      'Keep your back flat and brace your core',
+      'Move the opposite hand and foot together',
+      'Take small, quiet steps and keep your hips low'
+    ]
+  },
+
+  wall_sit: {
+    id: 'wall_sit', name: 'Wall Sit', target: 'him',
+    groups: ['legs'],
+    muscles: ['Quads', 'Glutes', 'Core'],
+    type: 'time', time: 30, sets: 3, rest: 30,
+    steps: [
+      'Place your back against a wall and walk your feet forward',
+      'Slide down until your thighs are close to parallel',
+      'Keep knees stacked over ankles and your back against the wall',
+      'Breathe steadily and hold'
+    ]
+  },
+
+  dead_bug: {
+    id: 'dead_bug', name: 'Dead Bug', target: 'her',
+    groups: ['core'],
+    muscles: ['Abs', 'Hip Flexors'],
+    type: 'reps', reps: 10, sets: 3, rest: 25, eachSide: true,
+    steps: [
+      'Lie on your back with hips and knees bent to 90 degrees',
+      'Press your lower back gently into the floor',
+      'Extend the opposite arm and leg without arching your back',
+      'Return with control and switch sides'
+    ]
+  },
+
+  calf_raise: {
+    id: 'calf_raise', name: 'Calf Raise', target: 'him',
+    groups: ['legs'],
+    muscles: ['Calves'],
+    type: 'reps', reps: 20, sets: 3, rest: 25,
+    steps: [
+      'Stand tall with feet hip-width apart',
+      'Press through the balls of your feet and lift your heels',
+      'Pause briefly at the top',
+      'Lower your heels slowly and repeat'
+    ]
+  },
+
+  inchworm: {
+    id: 'inchworm', name: 'Inchworm', target: 'him',
+    groups: ['full_body', 'mobility'],
+    muscles: ['Core', 'Shoulders', 'Hamstrings'],
+    type: 'reps', reps: 6, sets: 2, rest: 25,
+    steps: [
+      'Fold forward and place your hands on the floor',
+      'Walk your hands out to a strong plank',
+      'Keep your hips steady and your core braced',
+      'Walk your hands back and stand tall'
+    ]
+  },
+
+  fire_hydrant: {
+    id: 'fire_hydrant', name: 'Fire Hydrant', target: 'her',
+    groups: ['glutes', 'legs'],
+    muscles: ['Glutes', 'Hips'],
+    type: 'reps', reps: 12, sets: 2, rest: 20, eachSide: true,
+    steps: [
+      'Start on all fours with your spine neutral',
+      'Keep your knee bent and lift one leg out to the side',
+      'Stop before your hips twist or your back arches',
+      'Lower slowly and repeat on the other side'
+    ]
+  },
+
+  donkey_kick: {
+    id: 'donkey_kick', name: 'Donkey Kick', target: 'her',
+    groups: ['glutes', 'legs'],
+    muscles: ['Glutes', 'Hamstrings'],
+    type: 'reps', reps: 12, sets: 2, rest: 20, eachSide: true,
+    steps: [
+      'Start on all fours with hands under shoulders',
+      'Keep one knee bent and drive that foot toward the ceiling',
+      'Squeeze the glute without rotating your hips',
+      'Lower with control and switch sides'
+    ]
+  },
+
+  clamshell: {
+    id: 'clamshell', name: 'Clamshell', target: 'her',
+    groups: ['glutes', 'legs'],
+    muscles: ['Glute Medius', 'Hips'],
+    type: 'reps', reps: 12, sets: 2, rest: 20, eachSide: true,
+    steps: [
+      'Lie on your side with knees bent and feet together',
+      'Keep your heels touching and lift the top knee',
+      'Keep your hips stacked instead of rolling backward',
+      'Lower slowly and repeat on the other side'
+    ]
   }
 };
 
 const ROUTINES = {
   him: [
     {
-      id: 'toji_full', name: 'Toji Full Body', desc: 'Everything — the classic V-shape builder.',
+      id: 'full_body', name: 'Full Body', desc: 'Everything — a complete bodyweight session.',
       items: ['arm_circles', 'jumping_jacks', 'pushup', 'pike_pushup', 'table_row', 'squat', 'lunge', 'diamond_pushup', 'plank', 'hollow_hold', 'downward_dog', 'childs_pose']
     },
     {
@@ -647,6 +764,10 @@ const ROUTINES = {
     {
       id: 'quick15', name: 'Quick 15', desc: 'Short and sharp — 15 minutes anywhere.',
       items: ['jumping_jacks', 'pushup', 'squat', 'table_row', 'mountain_climbers', 'plank', 'downward_dog']
+    },
+    {
+      id: 'bodyweight_variety', name: 'Bodyweight Variety', desc: 'Fresh no-equipment moves for the full body.',
+      items: ['inchworm', 'burpee', 'bear_crawl', 'wall_sit', 'calf_raise', 'dead_bug', 'childs_pose']
     }
   ],
   her: [
@@ -661,24 +782,28 @@ const ROUTINES = {
     {
       id: 'full_flow', name: 'Full Body Flow', desc: 'Everything in one smooth session.',
       items: ['cat_cow', 'roll_up', 'the_hundred', 'single_leg_stretch', 'criss_cross', 'pilates_glute_bridge', 'clam', 'bird_dog', 'leg_circles', 'mermaid', 'childs_pose']
+    },
+    {
+      id: 'mat_variety', name: 'Mat Variety', desc: 'Core and glute work with a few new moves.',
+      items: ['cat_cow', 'dead_bug', 'fire_hydrant', 'donkey_kick', 'clamshell', 'bird_dog', 'childs_pose']
     }
   ]
 };
 
 const GENERATOR_POOLS = {
   him: {
-    warmup: ['arm_circles', 'jumping_jacks', 'leg_swings', 'squat'],
+    warmup: ['arm_circles', 'jumping_jacks', 'leg_swings', 'inchworm', 'squat'],
     push: ['pushup', 'diamond_pushup', 'decline_pushup', 'chair_dips'],
     shoulders: ['pike_pushup', 'handstand_hold', 'decline_pushup'],
     back: ['table_row', 'superman', 'decline_pushup'],
-    legs: ['squat', 'jump_squat', 'lunge', 'bulgarian_split', 'glute_bridge'],
-    core: ['plank', 'mountain_climbers', 'hollow_hold', 'leg_raises', 'side_plank'],
+    legs: ['squat', 'jump_squat', 'lunge', 'bulgarian_split', 'glute_bridge', 'wall_sit', 'calf_raise'],
+    core: ['plank', 'mountain_climbers', 'hollow_hold', 'leg_raises', 'side_plank', 'bear_crawl', 'dead_bug'],
     stretch: ['downward_dog', 'forward_fold', 'hip_flexor_stretch', 'childs_pose']
   },
   her: {
     warmup: ['cat_cow', 'pelvic_tilt'],
-    core: ['the_hundred', 'roll_up', 'single_leg_stretch', 'criss_cross'],
-    glutes: ['pilates_glute_bridge', 'clam', 'bird_dog'],
+    core: ['the_hundred', 'roll_up', 'single_leg_stretch', 'criss_cross', 'dead_bug'],
+    glutes: ['pilates_glute_bridge', 'clam', 'bird_dog', 'fire_hydrant', 'donkey_kick', 'clamshell'],
     legs: ['leg_circles', 'single_leg_stretch'],
     stretch: ['mermaid', 'childs_pose', 'cat_cow']
   }
