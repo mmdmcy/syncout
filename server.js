@@ -36,11 +36,26 @@ function handle(req, res) {
     res.end(JSON.stringify({ ips: lanIPs(), port: activePort }));
     return;
   }
-  let file = url.pathname === '/' ? '/index.html' : decodeURIComponent(url.pathname);
-  let abs = path.normalize(path.join(ROOT, file));
-  if (!abs.startsWith(ROOT)) {
-    res.writeHead(403);
-    res.end('forbidden');
+  let file;
+  try {
+    file = url.pathname === '/' ? '/index.html' : decodeURIComponent(url.pathname);
+  } catch {
+    res.writeHead(400);
+    res.end('bad request');
+    return;
+  }
+  const abs = path.resolve(ROOT, '.' + path.posix.normalize('/' + file));
+  const rel = path.relative(ROOT, abs);
+  // Serve only the web files: inside ROOT (not a sibling like ROOT-private),
+  // no dot segments (.git, .gitignore), not this server, and a known type.
+  if (
+    !abs.startsWith(ROOT + path.sep) ||
+    rel.split(path.sep).some((seg) => seg.startsWith('.')) ||
+    rel === 'server.js' ||
+    !Object.hasOwn(MIME, path.extname(abs).toLowerCase())
+  ) {
+    res.writeHead(404);
+    res.end('not found');
     return;
   }
   fs.readFile(abs, (err, data) => {
@@ -50,7 +65,7 @@ function handle(req, res) {
       return;
     }
     res.writeHead(200, {
-      'Content-Type': MIME[path.extname(abs).toLowerCase()] || 'application/octet-stream',
+      'Content-Type': MIME[path.extname(abs).toLowerCase()],
       'Cache-Control': 'no-cache'
     });
     res.end(data);

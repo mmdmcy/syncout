@@ -51,7 +51,7 @@ syncout/
 ├── anim.js        # canvas stick-figure animation engine
 ├── visual-assets.js # optional frame-based exercise demonstrations
 ├── assets/         # third-party visual assets and notices
-└── server.js      # static file server (Node built-ins only)
+└── server.js      # static file server for the app files only (Node built-ins only)
 ```
 
 ## Adding your own exercises
